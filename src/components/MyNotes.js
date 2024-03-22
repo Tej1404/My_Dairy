@@ -2,6 +2,10 @@ import { Button, TextField } from "@mui/material";
 import "./MyNotes.css";
 import React, { useState, useEffect } from "react";
 import { TextareaAutosize,Textarea } from '@mui/base/TextareaAutosize';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -83,6 +87,25 @@ function MyNotes() {
     backgroundColor: 'background.paper',
   }
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event,index) => {
+    setAnchorEl({...anchorEl,[index]: event.currentTarget});
+  };
+
+  const handleClose = (index) => {
+    setAnchorEl({...anchorEl,[index]: null});
+  };
+
+  const handleDelete = (index)=>{
+    const tempNotes = [...myNotes]
+    tempNotes.splice(index,1)
+    setMyNotes(tempNotes)
+  }
+
+  const open = (index)=> Boolean(anchorEl && anchorEl[index]);
+  const getPopoverId = (index) => (open(index) ? `popover-${index}` : undefined);
+
   return (
     <div className="myNotes">
       <form onSubmit={handleSubmit}>
@@ -115,40 +138,44 @@ function MyNotes() {
         <Button type="submit" variant="contained">Submit</Button>
       </form>
 
-      <div className="format_table">
-        <table>
-          <thead>
-            <tr>
-              {myNotesEmpty ? null : <td>Date</td>}
-              {myNotesEmpty ? null : <td>Notes</td>}
-            </tr>
-          </thead>
-          <tbody>
-            {myNotes.map((formData, index) => (
-              <tr key={index}>
-                <td>{formData.date}</td>
-                <td>{formData.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
       <div className="listOfNotes">
         <List sx={style} aria-label="mailbox folders">
 
-          {myNotes.map((formData)=>{
+          {myNotes.map((formData,index)=>{
+
             return(
-            <div>
+            <div key={index}>
               <ListItem>
                 <ListItemText primary={formData.date} />
+                <div>
+                  <Button aria-describedby={getPopoverId(index)} onClick={(event) => handleClick(event, index)} startIcon={<EditIcon/>}/>
+                  <Popover
+                    id={getPopoverId(index)}
+                    open={open(index)}
+                    anchorEl={anchorEl && anchorEl[index]}
+                    onClose={()=>{handleClose(index)}}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                  
+                  >
+                    <Typography sx={{ p: 2 }}>{formData.note}</Typography>
+                  </Popover>
+                </div>
+
+                <div>
+                  <Button endIcon={<DeleteIcon/>} onClick={(index)=>{handleDelete(index)}}/>
+                </div>
               </ListItem>
-              <Divider component="li" />
+              {myNotesEmpty ? null : <Divider component="li" />}
             </div>
             )
           })}
+         
         </List>
       </div>
+
     </div>
   );
 }
