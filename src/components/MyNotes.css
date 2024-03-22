@@ -1,0 +1,58 @@
+.format_table{
+    padding-top: 5%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .format_table th,.format_table td{
+    border: 1px solid black;
+    padding: 8px;
+  }
+
+  .listOfNotes{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .format_table tr:nth-child(even){
+    background-color: #f2f2f2;
+  }
+  .format_table tr:hover{
+    background-color: #ddd;
+  }
+
+  .loginForm{
+    margin-top: 5%;
+  }
+
+  #password{
+    margin-top: 1%;
+  }
+
+  #loginButton{
+    margin-top: 1%;
+  }
+
+  #signUpButton{
+    margin-top: 1%;
+  }
+
+  .signUpPage{
+    margin-top: 5%;
+  }
+  #username{
+    margin-top: 1%;
+    
+  }
+  #dob{
+    margin-top: 1%;
+  }
+
+  .myNotes{
+    margin-top: 5%;
+  }
+
+  #noteArea{
+    margin-top: 2%;
+  }
