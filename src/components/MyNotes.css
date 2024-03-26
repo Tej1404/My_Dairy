@@ -56,3 +56,10 @@
   #noteArea{
     margin-top: 2%;
   }
+
+  #marker{
+    display: block;
+    color: grey;
+    font-size: smaller;
+    font-style: italic;
+  }
